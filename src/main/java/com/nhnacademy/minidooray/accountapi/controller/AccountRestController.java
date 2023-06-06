@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.accountapi.controller;
 
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
+import com.nhnacademy.minidooray.accountapi.exception.ValidationFailedException;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
 import com.nhnacademy.minidooray.accountapi.request.AccountRegisterRequest;
 import com.nhnacademy.minidooray.accountapi.service.AccountService;
@@ -9,8 +10,10 @@ import com.nhnacademy.minidooray.accountapi.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -30,19 +33,21 @@ public class AccountRestController {
         return new ResponseEntity(accountService.getAccounts(), HttpStatus.OK);
     }
 
-//    @PostMapping("/accounts")
-//    public ResponseEntity<AccountDto> createAccount(AccountRegisterRequest accountRegisterRequest) {
-//        return new ResponseEntity<>(accountService.createAccount(accountRegisterRequest), HttpStatus.OK);
-//    }
-
     @PostMapping("/accounts")
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountRegisterRequest accountRegisterRequest) {
-        accountService.createAccount(accountRegisterRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<AccountDto> createAccount(@Valid @RequestBody AccountRegisterRequest accountRegisterRequest, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
+        AccountDto accountDto = accountService.createAccount(accountRegisterRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountDto);
     }
 
     @PatchMapping(value = "/accounts/{id}")
-    public ResponseEntity<AccountDto> modifyForUser(@PathVariable String id, AccountModifyRequest accountModifyRequest) {
-        return new ResponseEntity<>(accountService.modifyAccount(id, accountModifyRequest), HttpStatus.OK);
+    public ResponseEntity<AccountDto> modifyForUser(@PathVariable String id, @Valid @RequestBody AccountModifyRequest accountModifyRequest, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
+        AccountDto accountDto =accountService.modifyAccount(id, accountModifyRequest);
+        return ResponseEntity.ok().body(accountDto);
     }
 }

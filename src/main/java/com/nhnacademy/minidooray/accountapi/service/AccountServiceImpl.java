@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public AccountDto createAccount(AccountRegisterRequest accountRegisterRequest) {
         Account account = Account.builder()
-                .accountId(accountRegisterRequest.getId())
+                .accountId(accountRegisterRequest.getAccountId())
                 .password(accountRegisterRequest.getPassword())
                 .email(accountRegisterRequest.getEmail())
                 .name(accountRegisterRequest.getName())
@@ -49,10 +49,10 @@ public class AccountServiceImpl implements AccountService {
                 .status(statusCodeRepository.getReferenceById(1))
                 .authority(authorityCodeRepository.getReferenceById(2))
                 .build();
+
+        System.out.println(account.getAuthority());
         accountRepository.save(account);
-        return accountRepository.findByAccountId(accountRegisterRequest.getId()).orElseThrow(() -> {
-            throw new AccountNotFoundException(accountRegisterRequest.getId());
-        });
+        return accountRepository.findByAccountId(account.getAccountId()).get();
     }
 
     @Override

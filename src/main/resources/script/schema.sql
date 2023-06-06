@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
     `account_email` VARCHAR(100) NOT NULL,
     `account_name` VARCHAR(50) NULL DEFAULT NULL,
     `account_created_at` DATETIME NOT NULL,
-    `status_code_seq` INT NOT NULL DEFAULT 1,
+    `status_code_seq` INT NOT NULL,
     `authority_code_seq` INT NOT NULL,
     PRIMARY KEY (`account_id`),
     CONSTRAINT `fk_Account_StatusCode`

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 public class AccountRegisterRequest {
 
     @NotBlank
-    String id;
+    String accountId;
 
     @Length(min = 3, max = 20)
     @NotBlank

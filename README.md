@@ -1,9 +1,7 @@
 # account-api
 
 # 변경 사항
-Authority Dto에 추가
-deleteMapping 삭제
+restapi 완료
 
 # 진행 상황
-GET 2개는 모두 동작
-POST PATCH 동작 안함 Controller 수정 필요
+test code 작성 예정, advice 작업 필요

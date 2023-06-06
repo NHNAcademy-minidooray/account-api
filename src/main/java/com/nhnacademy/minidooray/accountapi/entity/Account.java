@@ -9,12 +9,12 @@ import java.time.LocalDate;
 @Table(name = "Accounts")
 @Getter
 @Setter
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private String accountId;
 

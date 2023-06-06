@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.accountapi.service;
 
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
-import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
 import com.nhnacademy.minidooray.accountapi.request.AccountRegisterRequest;
 

@@ -1,8 +1,11 @@
 package com.nhnacademy.minidooray.accountapi.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "AuthorityCodes")
 public class AuthorityCode {

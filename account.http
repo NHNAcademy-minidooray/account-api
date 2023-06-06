@@ -15,7 +15,7 @@ POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-  "id": "minidooray",
+  "accountId": "minidooray",
   "password": "minidooray",
   "email": "minidooray@naver.com",
   "name": "두레이"
@@ -32,3 +32,25 @@ Content-Type: application/json
   "name": "미니두레이"
 }
 
+###
+
+PATCH http://localhost:8080/accounts/kimsiyeon
+Content-Type: application/json
+
+{
+  "password": "ksy",
+  "email": "swanshawn715@gmail.com",
+  "name": "시연"
+}
+
+###
+
+POST http://localhost:8080/accounts
+Content-Type: application/json
+
+{
+  "accountId": "test",
+  "password": "test",
+  "email": "test@naver.com",
+  "name": "imtest"
+}
