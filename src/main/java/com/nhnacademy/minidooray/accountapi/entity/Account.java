@@ -4,16 +4,15 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "Accounts")
 @Getter
 @Setter
 @Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
@@ -29,7 +28,6 @@ public class Account {
     private String name;
 
     @Column(name = "account_created_at")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate createdAt;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

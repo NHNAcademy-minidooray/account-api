@@ -3,7 +3,7 @@ package com.nhnacademy.minidooray.accountapi.dto;
 import java.time.LocalDate;
 
 public interface AccountDto {
-    String getId();
+    String getAccountId();
 
     String getPassword();
 
@@ -15,4 +15,5 @@ public interface AccountDto {
 
     StatusCodeDto getStatus();
 
+    AuthorityCodeDto getAuthority();
 }

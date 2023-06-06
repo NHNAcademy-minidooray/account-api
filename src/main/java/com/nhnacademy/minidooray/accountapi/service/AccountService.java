@@ -15,6 +15,4 @@ public interface AccountService {
     AccountDto createAccount(AccountRegisterRequest accountRegisterRequest);
 
     AccountDto modifyAccount(String id, AccountModifyRequest accountModifyRequest);
-
-    void deleteAccount(String id);
 }

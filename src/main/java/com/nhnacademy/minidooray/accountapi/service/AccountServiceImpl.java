@@ -67,13 +67,4 @@ public class AccountServiceImpl implements AccountService {
             throw new AccountNotFoundException(account.getAccountId());
         });
     }
-
-    @Override
-    @Transactional
-    public void deleteAccount(String id) {
-        accountRepository.findById(id).orElseThrow(() -> {
-            throw new AccountNotFoundException(id);
-        });
-        accountRepository.deleteById(id);
-    }
 }

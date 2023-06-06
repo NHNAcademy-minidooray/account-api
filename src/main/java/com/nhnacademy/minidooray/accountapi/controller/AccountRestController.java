@@ -30,20 +30,19 @@ public class AccountRestController {
         return new ResponseEntity(accountService.getAccounts(), HttpStatus.OK);
     }
 
-    @PostMapping("/accounts")
-    public ResponseEntity<AccountDto> createAccount(AccountRegisterRequest accountRegisterRequest) {
-        return new ResponseEntity<>(accountService.createAccount(accountRegisterRequest), HttpStatus.OK);
-    }
+//    @PostMapping("/accounts")
+//    public ResponseEntity<AccountDto> createAccount(AccountRegisterRequest accountRegisterRequest) {
+//        return new ResponseEntity<>(accountService.createAccount(accountRegisterRequest), HttpStatus.OK);
+//    }
 
+    @PostMapping("/accounts")
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountRegisterRequest accountRegisterRequest) {
+        accountService.createAccount(accountRegisterRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
     @PatchMapping(value = "/accounts/{id}")
     public ResponseEntity<AccountDto> modifyForUser(@PathVariable String id, AccountModifyRequest accountModifyRequest) {
         return new ResponseEntity<>(accountService.modifyAccount(id, accountModifyRequest), HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/accounts/{id}")
-    public void deleteAccount() {
-
-    }
-
 }
