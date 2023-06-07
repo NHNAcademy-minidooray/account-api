@@ -17,23 +17,23 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-//@RequestMapping("/accounts")
+@RequestMapping("/accounts")
 @RequiredArgsConstructor
 public class AccountRestController {
 
     private final AccountService accountService;
 
-    @GetMapping(value = "/accounts/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<AccountDto> getAccount(@PathVariable String id) {
         return new ResponseEntity<>(accountService.getAccount(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/accounts")
+    @GetMapping
     public ResponseEntity<Map<String, Account>> getAccounts() {
         return new ResponseEntity(accountService.getAccounts(), HttpStatus.OK);
     }
 
-    @PostMapping("/accounts")
+    @PostMapping
     public ResponseEntity<AccountDto> createAccount(@Valid @RequestBody AccountRegisterRequest accountRegisterRequest, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
@@ -42,7 +42,7 @@ public class AccountRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountDto);
     }
 
-    @PatchMapping(value = "/accounts/{id}")
+    @PatchMapping(value = "/{id}")
     public ResponseEntity<AccountDto> modifyForUser(@PathVariable String id, @Valid @RequestBody AccountModifyRequest accountModifyRequest, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);

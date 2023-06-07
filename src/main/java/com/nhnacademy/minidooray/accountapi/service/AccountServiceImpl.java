@@ -5,6 +5,7 @@ import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.exception.AccountNotFoundException;
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepository;
 
+import com.nhnacademy.minidooray.accountapi.repository.AccountRepositoryImpl;
 import com.nhnacademy.minidooray.accountapi.repository.AuthorityCodeRepository;
 import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
@@ -22,19 +23,21 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final AccountRepositoryImpl accountRepositoryCustom;
     private final StatusCodeRepository statusCodeRepository;
     private final AuthorityCodeRepository authorityCodeRepository;
 
     @Override
     public AccountDto getAccount(String id) {
-        return accountRepository.findByAccountId(id).orElseThrow(() -> {
+        accountRepository.findById(id).orElseThrow(() -> {
             throw new AccountNotFoundException(id);
         });
+        return accountRepositoryCustom.findAccountById(id);
     }
 
     @Override
     public List<AccountDto> getAccounts() {
-        return accountRepository.findAllBy();
+        return accountRepositoryCustom.findAccountAll();
     }
 
     @Override
@@ -50,9 +53,8 @@ public class AccountServiceImpl implements AccountService {
                 .authority(authorityCodeRepository.getReferenceById(2))
                 .build();
 
-        System.out.println(account.getAuthority());
         accountRepository.save(account);
-        return accountRepository.findByAccountId(account.getAccountId()).get();
+        return accountRepository.findAccountById(account.getAccountId());
     }
 
     @Override
@@ -63,8 +65,9 @@ public class AccountServiceImpl implements AccountService {
         account.setEmail(accountModifyRequest.getEmail());
         account.setName(accountModifyRequest.getName());
         accountRepository.save(account);
-        return accountRepository.findByAccountId(account.getAccountId()).orElseThrow(() -> {
-            throw new AccountNotFoundException(account.getAccountId());
+        accountRepository.findById(id).orElseThrow(() -> {
+            throw new AccountNotFoundException(id);
         });
+        return accountRepositoryCustom.findAccountById(id);
     }
 }
