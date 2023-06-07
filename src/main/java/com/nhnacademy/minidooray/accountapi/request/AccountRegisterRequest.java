@@ -14,7 +14,7 @@ public class AccountRegisterRequest {
     @NotBlank
     String accountId;
 
-    @Length(min = 3, max = 20)
+    @Length(min = 60, max = 60)
     @NotBlank
     String password;
 

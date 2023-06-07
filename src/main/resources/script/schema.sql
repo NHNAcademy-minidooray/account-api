@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `AuthorityCodes` (
 
 CREATE TABLE IF NOT EXISTS `Accounts` (
     `account_id` VARCHAR(20) NOT NULL,
-    `account_password` VARCHAR(25) NOT NULL,
+    `account_password` char(60) NOT NULL,
     `account_email` VARCHAR(100) NOT NULL,
     `account_name` VARCHAR(50) NULL DEFAULT NULL,
     `account_created_at` DATETIME NOT NULL,
