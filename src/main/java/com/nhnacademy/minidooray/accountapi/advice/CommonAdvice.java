@@ -3,7 +3,6 @@ package com.nhnacademy.minidooray.accountapi.advice;
 import com.nhnacademy.minidooray.accountapi.exception.AccountNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
