@@ -51,7 +51,7 @@ MERGE INTO AuthorityCodes VALUES (1, '관리자');
 MERGE INTO AuthorityCodes VALUES (2, '회원');
 
 -- 멤버 더미데이터 삽입
-MERGE INTO Accounts VALUES ('goback10000', 'gbm', 'back10000@gmail.com', null, now(), 1, 1);
+MERGE INTO Accounts VALUES ('goback10000', '$2a$10$fY14UMgpyxJQKxsdtBCzJeiQrWhd9jqKGmEkX0JdEeJFedTMo8W7q', 'back10000@gmail.com', null, now(), 1, 1);
 MERGE INTO Accounts VALUES ('jeongzbum', 'jzb', 'zbum@naver.com', null, now(), 1, 2);
 MERGE INTO Accounts VALUES ('kimsiyeon', 'ksy', 'swanshwan715@gmail.com','김시연', now(), 1, 2);
 MERGE INTO Accounts VALUES ('goyoungeun', 'gye', 'youngeun@gmail.com', '고영은', now(), 1, 2);

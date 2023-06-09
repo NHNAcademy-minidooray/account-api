@@ -3,6 +3,7 @@ package com.nhnacademy.minidooray.accountapi.service;
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.exception.AccountNotFoundException;
+import com.nhnacademy.minidooray.accountapi.exception.StatusNotFoundException;
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepository;
 
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepositoryImpl;
@@ -10,6 +11,7 @@ import com.nhnacademy.minidooray.accountapi.repository.AuthorityCodeRepository;
 import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
 import com.nhnacademy.minidooray.accountapi.request.AccountRegisterRequest;
+import com.nhnacademy.minidooray.accountapi.request.AdminModifyRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,20 +57,42 @@ public class AccountServiceImpl implements AccountService {
                 .build();
 
         accountRepository.save(account);
+
+        accountRepository.findById(account.getAccountId()).orElseThrow(() -> {
+            throw new AccountNotFoundException(account.getAccountId());
+        });
         return accountRepository.findAccountById(account.getAccountId());
     }
 
     @Override
     @Transactional
-    public AccountDto modifyAccount(String id, AccountModifyRequest accountModifyRequest) {
-        Account account = accountRepository.findById(id).get();
+    public AccountDto modifyAccountForMember(String id, AccountModifyRequest accountModifyRequest) {
+        Account account = accountRepository.findById(id).orElseThrow(() -> {
+            throw new AccountNotFoundException(id);
+        });
+
         account.setPassword(accountModifyRequest.getPassword());
         account.setEmail(accountModifyRequest.getEmail());
         account.setName(accountModifyRequest.getName());
         accountRepository.save(account);
+
         accountRepository.findById(id).orElseThrow(() -> {
             throw new AccountNotFoundException(id);
         });
+        return accountRepositoryCustom.findAccountById(id);
+    }
+
+    @Override
+    @Transactional
+    public AccountDto modifyAccountForAdmin(String id) {
+        Account account = accountRepository.findById(id).orElseThrow(() -> {
+            throw new AccountNotFoundException(id);
+        });
+
+        account.setAuthority(authorityCodeRepository.getReferenceById(1));
+
+        accountRepository.save(account);
+
         return accountRepositoryCustom.findAccountById(id);
     }
 }

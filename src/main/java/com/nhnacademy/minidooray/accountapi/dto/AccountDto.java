@@ -1,10 +1,12 @@
 package com.nhnacademy.minidooray.accountapi.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
+@Setter
 public class AccountDto {
 
     String accountId;

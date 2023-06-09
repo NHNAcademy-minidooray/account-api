@@ -3,6 +3,7 @@ package com.nhnacademy.minidooray.accountapi.service;
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
 import com.nhnacademy.minidooray.accountapi.request.AccountRegisterRequest;
+import com.nhnacademy.minidooray.accountapi.request.AdminModifyRequest;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface AccountService {
 
     AccountDto createAccount(AccountRegisterRequest accountRegisterRequest);
 
-    AccountDto modifyAccount(String id, AccountModifyRequest accountModifyRequest);
+    AccountDto modifyAccountForMember(String id, AccountModifyRequest accountModifyRequest);
+
+    AccountDto modifyAccountForAdmin(String id);
 }
