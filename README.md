@@ -1,7 +1,7 @@
 # account-api
 
 # 변경 사항
-Admin RESTAPI 완료
+exception 정리, advice 추가
 
 # 진행 상황
-test code 작성 예정, advice 작업 필요
+set에서 update로, test code 작성 필요

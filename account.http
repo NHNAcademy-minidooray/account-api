@@ -8,13 +8,13 @@ GET http://localhost:8080/accounts/minidooray
 GET http://localhost:8080/accounts/kimsiyeon
 
 
-### minidooray 등록
+### "minidooray" 등록
 POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
   "accountId": "minidooray",
-  "password": "minidooray",
+  "password": "minidooray                                                  ",
   "email": "minidooray@naver.com",
   "name": "두레이"
 }
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 
-### kimsiyeon 이름 변경
+### kimsiyeon 이름 변경 "김시연" -> "시연"
 PATCH http://localhost:8080/accounts/kimsiyeon
 Content-Type: application/json
 
@@ -42,13 +42,13 @@ Content-Type: application/json
 }
 
 
-### test 등록
+### "test" 등록
 POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
   "accountId": "test",
-  "password": "test",
+  "password": "test                                                        ",
   "email": "test@naver.com",
   "name": "imtest"
 }

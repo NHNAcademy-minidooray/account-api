@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.accountapi.service;
 
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
+import com.nhnacademy.minidooray.accountapi.exception.AccountIdExistsException;
 import com.nhnacademy.minidooray.accountapi.exception.AccountNotFoundException;
 import com.nhnacademy.minidooray.accountapi.exception.StatusNotFoundException;
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepository;
@@ -11,7 +12,6 @@ import com.nhnacademy.minidooray.accountapi.repository.AuthorityCodeRepository;
 import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
 import com.nhnacademy.minidooray.accountapi.request.AccountRegisterRequest;
-import com.nhnacademy.minidooray.accountapi.request.AdminModifyRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +45,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDto createAccount(AccountRegisterRequest accountRegisterRequest) {
+        // 짜잔 ~
+        // id 중복체크는 했는데 email이랑 name까지 같을 때 회원 중복체크하는거 실패ㅜ
+        if (accountRepository.findById(accountRegisterRequest.getAccountId()).isPresent()) {
+            throw new AccountIdExistsException(accountRegisterRequest.getAccountId());
+        }
         //시연아 아이디 중복 로직 짜야되.....
         Account account = Account.builder()
                 .accountId(accountRegisterRequest.getAccountId())

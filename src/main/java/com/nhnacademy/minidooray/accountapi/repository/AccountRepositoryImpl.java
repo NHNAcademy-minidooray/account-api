@@ -15,6 +15,7 @@ public class AccountRepositoryImpl extends QuerydslRepositorySupport implements 
         super(Account.class);
     }
 
+
     @Override
     public AccountDto findAccountById(String accountId) {
         QAccount account = QAccount.account;

@@ -3,7 +3,6 @@ package com.nhnacademy.minidooray.accountapi.controller;
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.exception.ValidationFailedException;
-import com.nhnacademy.minidooray.accountapi.request.AdminModifyRequest;
 import com.nhnacademy.minidooray.accountapi.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
