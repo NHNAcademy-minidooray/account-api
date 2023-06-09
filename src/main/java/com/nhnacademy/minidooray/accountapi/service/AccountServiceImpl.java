@@ -43,6 +43,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDto createAccount(AccountRegisterRequest accountRegisterRequest) {
+        //시연아 아이디 중복 로직 짜야되.....
         Account account = Account.builder()
                 .accountId(accountRegisterRequest.getAccountId())
                 .password(accountRegisterRequest.getPassword())
