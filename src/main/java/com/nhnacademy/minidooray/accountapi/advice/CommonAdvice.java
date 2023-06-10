@@ -59,7 +59,7 @@ public class CommonAdvice {
 
     // 409 Conflict
     @ExceptionHandler({AccountIdExistsException.class, AccountExistsException.class})
-    public ResponseEntity<ErrorMessage> existsExceprion(Exception exception) {
+    public ResponseEntity<ErrorMessage> existsException(Exception exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.CONFLICT.value(), exception.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
     }
@@ -72,4 +72,3 @@ public class CommonAdvice {
     }
 
 }
-

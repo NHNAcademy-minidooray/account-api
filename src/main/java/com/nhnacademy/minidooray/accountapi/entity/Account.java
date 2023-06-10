@@ -37,4 +37,14 @@ public class Account {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "authority_code_seq")
     private AuthorityCode authority;
+
+    public void updateAccountInfo(String password, String email, String name) {
+        this.password = password;
+        this.email = email;
+        this.name = name;
+    }
+
+    public void updateStatusCode(StatusCode status) {
+        this.status = status;
+    }
 }

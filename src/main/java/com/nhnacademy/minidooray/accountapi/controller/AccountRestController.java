@@ -47,11 +47,11 @@ public class AccountRestController {
 //    PATCH /accounts/{id}
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<AccountDto> modifyForUser(@PathVariable String id, @Valid @RequestBody AccountModifyRequest accountModifyRequest, BindingResult bindingResult) {
+    public ResponseEntity<AccountDto> modifyAccountForAccount(@PathVariable String id, @Valid @RequestBody AccountModifyRequest accountModifyRequest, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
         }
-        AccountDto accountDto = accountService.modifyAccountForMember(id, accountModifyRequest);
+        AccountDto accountDto = accountService.modifyAccountForAccount(id, accountModifyRequest);
         return ResponseEntity.ok().body(accountDto);
     }
 }

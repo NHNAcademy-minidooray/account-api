@@ -1,15 +1,15 @@
 # Account
 
-### minidooray 조회
-GET http://localhost:8080/accounts/minidooray
-
-
 ### kimsiyeon 조회
-GET http://localhost:8080/accounts/kimsiyeon
+GET http://localhost:8888/accounts/kimsiyeon
+
+
+### minidooray 조회
+GET http://localhost:8888/accounts/minidooray
 
 
 ### "minidooray" 등록
-POST http://localhost:8080/accounts
+POST http://localhost:8888/accounts
 Content-Type: application/json
 
 {
@@ -20,8 +20,8 @@ Content-Type: application/json
 }
 
 
-### minidooray 이름 변경
-PATCH http://localhost:8080/accounts/minidooray
+### minidooray 이름 변경 "두레이" -> "미니두레이"
+PATCH http://localhost:8888/accounts/minidooray
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 
 
 ### kimsiyeon 이름 변경 "김시연" -> "시연"
-PATCH http://localhost:8080/accounts/kimsiyeon
+PATCH http://localhost:8888/accounts/kimsiyeon
 Content-Type: application/json
 
 {
@@ -42,13 +42,13 @@ Content-Type: application/json
 }
 
 
-### "test" 등록
-POST http://localhost:8080/accounts
+### "test" 등록 / 비밀번호 길이 오류
+POST http://localhost:8888/accounts
 Content-Type: application/json
 
 {
   "accountId": "test",
-  "password": "test                                                        ",
+  "password": "test",
   "email": "test@naver.com",
   "name": "imtest"
 }
@@ -58,21 +58,21 @@ Content-Type: application/json
 # Admin
 
 ### 전체 회원 조회
-GET http://localhost:8080/admin/accounts
+GET http://localhost:8888/admin/accounts
 
 
 ### kimsiyeon 조회
-GET http://localhost:8080/admin/accounts/kimsiyeon
+GET http://localhost:8888/admin/accounts/kimsiyeon
 
 
 ### minidooray 조회
-GET http://localhost:8080/admin/accounts/minidooray
+GET http://localhost:8888/admin/accounts/minidooray
 
 
-### kimsiyeon을 관리자로
-PATCH http://localhost:8080/admin/accounts/kimsiyeon
+### kimsiyeon을 휴면으로
+PATCH http://localhost:8888/admin/accounts/kimsiyeon
 Content-Type: application/json
 
 {
-  "id": "kimsiyeon"
+  "statusCode": 3
 }
