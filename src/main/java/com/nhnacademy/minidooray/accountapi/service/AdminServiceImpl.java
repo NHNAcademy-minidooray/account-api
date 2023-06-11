@@ -3,6 +3,7 @@ package com.nhnacademy.minidooray.accountapi.service;
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.exception.AccountNotFoundException;
+import com.nhnacademy.minidooray.accountapi.exception.UnauthorizedAdminException;
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepository;
 import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +35,18 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public AccountDto modifyAccountForAdmin(String id, Integer statusCode) {
-        Account account = accountRepository.findById(id).orElseThrow(() -> {
-            throw new AccountNotFoundException(id);
-        });
+    public AccountDto modifyAccountStatusForAdmin(String id, Integer statusCode) {
+        if (statusCode.equals(1) || statusCode.equals(3)) {
+            Account account = accountRepository.findById(id).orElseThrow(() -> {
+                throw new AccountNotFoundException(id);
+            });
 
-        account.updateStatusCode(statusCodeRepository.getReferenceById(statusCode));
+            account.updateStatusCode(statusCodeRepository.getReferenceById(statusCode));
 
-        return accountRepository.findAccountById(id);
+            return accountRepository.findAccountById(id);
+        } else {
+            throw new UnauthorizedAdminException(statusCode);
+        }
+
     }
 }

@@ -18,7 +18,6 @@ public class StatusCode {
 
     @Id
     @Column(name = "status_code_seq")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer sequence;
 
     @Column(name = "status_code_name")
@@ -26,4 +25,9 @@ public class StatusCode {
 
     @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
     private List<Account> accounts;
+
+    public StatusCode(Integer sequence, String name) {
+        this.sequence = sequence;
+        this.name = name;
+    }
 }

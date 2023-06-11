@@ -33,11 +33,11 @@ public class AdminRestController {
         return new ResponseEntity<>(adminService.getAccount(id), HttpStatus.OK);
     }
 
-//    해당 ID의 회원 상태 변경
+//    해당 ID의 회원 상태 변경 가입 <-> 휴면
 //    PATCH /admin/accounts/{id}
     @PatchMapping(value = "/accounts/{id}")
-    public ResponseEntity<AccountDto> modifyAccountForAdmin(@PathVariable String id, @RequestBody Map<String, Integer> map) {
-        AccountDto accountDto = adminService.modifyAccountForAdmin(id, map.get("statusCode"));
+    public ResponseEntity<AccountDto> modifyAccountStatusForAdmin(@PathVariable String id, @RequestBody Map<String, Integer> map) {
+        AccountDto accountDto = adminService.modifyAccountStatusForAdmin(id, map.get("statusCode"));
         return ResponseEntity.ok().body(accountDto);
     }
 

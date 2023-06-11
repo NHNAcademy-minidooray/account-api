@@ -7,5 +7,5 @@ import java.util.List;
 public interface AdminService {
     AccountDto getAccount(String id);
     List<AccountDto> getAccounts();
-    AccountDto modifyAccountForAdmin(String id, Integer statusCode);
+    AccountDto modifyAccountStatusForAdmin(String id, Integer statusCode);
 }

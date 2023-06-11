@@ -10,5 +10,6 @@ public interface AccountService {
 
     AccountDto createAccount(AccountRegisterRequest accountRegisterRequest);
 
-    AccountDto modifyAccountForAccount(String id, AccountModifyRequest accountModifyRequest);
+    AccountDto modifyAccountInfoForAccount(String id, AccountModifyRequest accountModifyRequest);
+    AccountDto modifyAccountStatusForAccount(String id);
 }

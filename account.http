@@ -30,6 +30,8 @@ Content-Type: application/json
   "name": "미니두레이"
 }
 
+### minidooray 자진 탈퇴
+GET http://localhost:8888/accounts/withdraw/minidooray
 
 ### kimsiyeon 이름 변경 "김시연" -> "시연"
 PATCH http://localhost:8888/accounts/kimsiyeon
@@ -65,14 +67,18 @@ GET http://localhost:8888/admin/accounts
 GET http://localhost:8888/admin/accounts/kimsiyeon
 
 
-### minidooray 조회
-GET http://localhost:8888/admin/accounts/minidooray
-
-
 ### kimsiyeon을 휴면으로
 PATCH http://localhost:8888/admin/accounts/kimsiyeon
 Content-Type: application/json
 
 {
   "statusCode": 3
+}
+
+### kimsiyeon을 강제탈퇴 -> 권한 없음
+PATCH http://localhost:8888/admin/accounts/kimsiyeon
+Content-Type: application/json
+
+{
+  "statusCode": 2
 }

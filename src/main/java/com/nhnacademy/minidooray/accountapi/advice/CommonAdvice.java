@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,15 +59,15 @@ public class CommonAdvice {
     }
 
     // 409 Conflict
-    @ExceptionHandler({AccountIdExistsException.class, AccountExistsException.class})
+    @ExceptionHandler(AccountExistsException.class)
     public ResponseEntity<ErrorMessage> existsException(Exception exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.CONFLICT.value(), exception.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
     }
 
     //500 Internal Server Error
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorMessage>  internalServerError(Exception exception) {
+    @ExceptionHandler(HttpServerErrorException.class)
+    public ResponseEntity<ErrorMessage>  internalServerException(Exception exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
         return new ResponseEntity<>(errorMessage,HttpStatus.INTERNAL_SERVER_ERROR);
     }
