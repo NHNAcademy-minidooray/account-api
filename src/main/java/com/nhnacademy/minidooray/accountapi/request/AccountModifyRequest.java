@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class AccountModifyRequest {
 
-    @Length(min = 60, max = 60)
+    @Length(min = 6, max = 6)
     @NotBlank
     String password;
 
