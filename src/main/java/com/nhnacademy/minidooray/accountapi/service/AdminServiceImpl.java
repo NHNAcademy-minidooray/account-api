@@ -7,12 +7,12 @@ import com.nhnacademy.minidooray.accountapi.exception.UnauthorizedAdminException
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepository;
 import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AdminServiceImpl implements AdminService {

@@ -1,11 +1,13 @@
 package com.nhnacademy.minidooray.accountapi.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -24,4 +26,11 @@ public class AccountRegisterRequest {
 
     String name;
 
+    @Builder
+    public AccountRegisterRequest(String accountId, String password, String email, String name) {
+        this.accountId = accountId;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+    }
 }

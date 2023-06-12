@@ -3,6 +3,7 @@ package com.nhnacademy.minidooray.accountapi.repository;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.entity.AuthorityCode;
 import com.nhnacademy.minidooray.accountapi.entity.StatusCode;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ class AccountRepositoryTest {
         AuthorityCode authorityCode = new AuthorityCode(4, "회원테스트");
         authorityCodeRepository.save(authorityCode);
 
-        Account account = new Account("test", "$2a$10$2JrtuV13mUgKMNc6S25HVe0NX.q7vKlUpgQJi6WmYJ/B24XG7lp6S",
+        Account account = new Account("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
                 "test@naver.com", "imtest", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
         accountRepository.save(account);
 

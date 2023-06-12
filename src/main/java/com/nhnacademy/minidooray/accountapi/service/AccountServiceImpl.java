@@ -10,12 +10,12 @@ import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
 import com.nhnacademy.minidooray.accountapi.request.AccountRegisterRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AccountServiceImpl implements AccountService {
@@ -29,6 +29,7 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.findById(id).orElseThrow(() -> {
             throw new AccountNotFoundException(id);
         });
+
         return accountRepository.findAccountById(id);
     }
 
@@ -38,6 +39,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(id).orElseThrow(() -> {
             throw new AccountNotFoundException(id);
         });
+
         account.updateStatusCode(statusCodeRepository.getReferenceById(2));
         return accountRepository.findAccountById(id);
     }
@@ -45,7 +47,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDto createAccount(AccountRegisterRequest accountRegisterRequest) {
-        // id 중복체크는 했는데 email이랑 name까지 같을 때 회원 중복체크하는거 실패ㅜ 나중에 시간나면 하기,,
         if (accountRepository.findById(accountRegisterRequest.getAccountId()).isPresent()) {
             throw new AccountExistsException(accountRegisterRequest.getAccountId());
         }
