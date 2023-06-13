@@ -50,8 +50,8 @@ class AccountRepositoryTest {
         AuthorityCode authorityCode = new AuthorityCode(4, "회원테스트");
         authorityCodeRepository.save(authorityCode);
 
-        Account account = new Account("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test@naver.com", "imtest", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
+        Account account = new Account("test", "test", "test@naver.com", "imtest",
+                LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
         accountRepository.save(account);
 
         Optional<StatusCode> actualStatusCode = statusCodeRepository.findById(statusCode.getSequence());

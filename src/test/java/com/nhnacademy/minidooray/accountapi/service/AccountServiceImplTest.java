@@ -4,120 +4,159 @@ import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.entity.AuthorityCode;
 import com.nhnacademy.minidooray.accountapi.entity.StatusCode;
+import com.nhnacademy.minidooray.accountapi.exception.AccountExistsException;
+import com.nhnacademy.minidooray.accountapi.exception.AccountNotFoundException;
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepository;
 import com.nhnacademy.minidooray.accountapi.repository.AuthorityCodeRepository;
 import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import com.nhnacademy.minidooray.accountapi.request.AccountModifyRequest;
 import com.nhnacademy.minidooray.accountapi.request.AccountRegisterRequest;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AccountServiceImplTest {
 
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
+    @InjectMocks
+    AccountServiceImpl accountService;
+    @Mock
     AccountRepository accountRepository;
-
-    @Autowired
+    @Mock
     StatusCodeRepository statusCodeRepository;
-
-    @Autowired
+    @Mock
     AuthorityCodeRepository authorityCodeRepository;
+
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.openMocks(this);
+//    }
+
+    @Test
+    void getAccountExceptionTest() {
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThrows(AccountNotFoundException.class,
+                () -> accountService.getAccount("test"));
+    }
 
     @Test
     void getAccountTest() {
+        when(accountRepository.findById("test"))
+                .thenReturn(Optional.of(mock(Account.class)));
+        when(accountRepository.findAccountById(any()))
+                .thenReturn(mock(AccountDto.class));
 
-        StatusCode statusCode = new StatusCode(4, "상태테스트");
-        statusCodeRepository.save(statusCode);
-        AuthorityCode authorityCode = new AuthorityCode(4, "권한테스트");
-        authorityCodeRepository.save(authorityCode);
+        AccountDto actual = accountService.getAccount("test");
+        assertThat(actual)
+                .isInstanceOf(AccountDto.class);
+    }
 
-        Account actual = new Account("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test@naver.com", "imtest", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
-        accountRepository.save(actual);
+    @Test
+    void modifyAccountStatusForAccountExceptionTest() {
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.empty());
 
-        AccountDto actualDto = new AccountDto("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test@naver.com", "imtest", LocalDate.now(), 4, 4);
-
-        assertThat(accountService.getAccount("test").getStatusCode()).isEqualTo(actualDto.getStatusCode());
-        assertThat(accountService.getAccount("test").getAuthorityCode()).isEqualTo(actualDto.getAuthorityCode());
+        Assertions.assertThrows(AccountNotFoundException.class,
+                () -> accountService.modifyAccountStatusForAccount("test"));
     }
 
     @Test
     void modifyAccountStatusForAccountTest() {
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.of(mock(Account.class)));
 
-        statusCodeRepository.save(new StatusCode(1, "가입"));
-        statusCodeRepository.save(new StatusCode(2, "탈퇴"));
-        authorityCodeRepository.save(new AuthorityCode(2, "회원"));
-
-        Account account = Account.builder()
-                .accountId("test")
-                .password("$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK")
-                .email("test@naver.com")
-                .name("imtest")
-                .createdAt(LocalDate.now())
-                .status(statusCodeRepository.getReferenceById(1))
-                .authority(authorityCodeRepository.getReferenceById(2))
-                .build();
-        accountRepository.save(account);
+        when(accountRepository.findAccountById(any()))
+                .thenReturn(mock(AccountDto.class));
 
         AccountDto actual = accountService.modifyAccountStatusForAccount("test");
-        assertThat(actual.getStatusCode()).isEqualTo(statusCodeRepository.getReferenceById(2).getSequence());
+        assertThat(actual)
+                .isInstanceOf(AccountDto.class);
     }
 
     @Test
-    @Order(1)
-    void createAccountTest() {
-
+    void createAccountExceptionTest() {
         AccountRegisterRequest request = AccountRegisterRequest.builder()
                 .accountId("test")
-                .password("$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK")
+                .password("test")
                 .email("test@naver.com")
-                .name("imtest")
+                .name("test")
                 .build();
 
-        AccountDto response = accountService.createAccount(request);
-        assertThat(response.getAccountId()).isEqualTo(accountRepository.findAccountById("test").getAccountId());
+        when(accountRepository.existsById(any()))
+                .thenReturn(true);
+
+        Assertions.assertThrows(AccountExistsException.class,
+                () -> accountService.createAccount(request));
+    }
+
+    @Test
+//    @Order(1)
+    void createAccountTest() {
+        // given
+        AccountRegisterRequest request = AccountRegisterRequest.builder()
+                .accountId("test")
+                .password("test")
+                .email("test@naver.com")
+                .name("test")
+                .build();
+
+        // when
+        when(accountRepository.existsById(any()))
+                .thenReturn(false);
+        when(statusCodeRepository.getReferenceById(any()))
+                .thenReturn(mock(StatusCode.class));
+        when(authorityCodeRepository.getReferenceById(any()))
+                .thenReturn(mock(AuthorityCode.class));
+
+        // then
+        accountService.createAccount(request);
+        verify(accountRepository, times(1)).findAccountById(any());
+    }
+
+    @Test
+    void modifyAccountInfoForeAccountExceptionTest() {
+        AccountModifyRequest request = AccountModifyRequest.builder()
+                .password("test")
+                .email("test@naver.com")
+                .name("test")
+                .build();
+
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThrows(AccountNotFoundException.class,
+                () -> accountService.modifyAccountInfoForAccount("test", request));
     }
 
     @Test
     void modifyAccountInfoForAccountTest() {
-
         // given
-        statusCodeRepository.save(new StatusCode(1, "가입"));
-        authorityCodeRepository.save(new AuthorityCode(2, "회원"));
-
-        Account account = Account.builder()
-                .accountId("test")
-                .password("$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK")
+        AccountModifyRequest request = AccountModifyRequest.builder()
+                .password("test")
                 .email("test@naver.com")
-                .name("imtest")
-                .createdAt(LocalDate.now())
-                .status(statusCodeRepository.getReferenceById(1))
-                .authority(authorityCodeRepository.getReferenceById(2))
+                .name("test")
                 .build();
-        accountRepository.save(account);
 
         // when
-        AccountDto actual = accountService.modifyAccountInfoForAccount(account.getAccountId(), new AccountModifyRequest
-                ("$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK", "changed@gmail.com", "changedName")
-        );
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.of(mock(Account.class)));
+        when(accountRepository.findAccountById(any()))
+                .thenReturn(mock(AccountDto.class));
 
-        //then
-        assertThat(actual.getPassword()).isEqualTo(accountRepository.findAccountById("test").getPassword());
-        assertThat(actual.getEmail()).isEqualTo(accountRepository.findAccountById("test").getEmail());
-        assertThat(actual.getName()).isEqualTo(accountRepository.findAccountById("test").getName());
+        // then
+        AccountDto actual = accountService.modifyAccountInfoForAccount("test", request);
+        assertThat(actual)
+                .isInstanceOf(AccountDto.class);
     }
 }

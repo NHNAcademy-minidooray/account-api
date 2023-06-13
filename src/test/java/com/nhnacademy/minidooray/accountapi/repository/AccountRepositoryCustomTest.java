@@ -35,12 +35,12 @@ class AccountRepositoryCustomTest {
         AuthorityCode authorityCode = new AuthorityCode(4, "권한테스트");
         authorityCodeRepository.save(authorityCode);
 
-        Account account = new Account("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test@naver.com", "imtest", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
+        Account account = new Account("test", "test", "test@naver.com", "imtest",
+                LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
         accountRepository.save(account);
 
-        AccountDto accountDto = new AccountDto("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test@naver.com", "imtest", LocalDate.now(), 4, 4);
+        AccountDto accountDto = new AccountDto("test", "test", "test@naver.com", "imtest",
+                LocalDate.now(), 4, 4);
 
         assertThat(accountDto.getStatusCode()).isEqualTo(accountRepository.findAccountById("test").getStatusCode());
         assertThat(accountDto.getAuthorityCode()).isEqualTo(accountRepository.findAccountById("test").getAuthorityCode());
@@ -53,12 +53,12 @@ class AccountRepositoryCustomTest {
         statusCodeRepository.save(new StatusCode(4, "상태테스트"));
         authorityCodeRepository.save(new AuthorityCode(4, "권한테스트"));
 
-        Account account1 = new Account("test1", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test1@naver.com", "imtest1", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
+        Account account1 = new Account("test1", "test1", "test1@naver.com", "imtest1",
+                LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
         accountRepository.save(account1);
 
-        Account account2 = new Account("test2", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test2@naver.com", "imtest2", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
+        Account account2 = new Account("test2", "test2", "test2@naver.com", "imtest2",
+                LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
         accountRepository.save(account2);
 
         List<Account> accountList = new ArrayList<>();

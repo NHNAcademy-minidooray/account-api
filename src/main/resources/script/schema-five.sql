@@ -7,16 +7,16 @@ DROP TABLE IF EXISTS `StatusCodes` ;
 
 
 CREATE TABLE IF NOT EXISTS `StatusCodes` (
-    `status_code_seq` INT NOT NULL AUTO_INCREMENT,
-    `status_code_name` VARCHAR(45) NOT NULL,
+                                             `status_code_seq` INT NOT NULL AUTO_INCREMENT,
+                                             `status_code_name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`status_code_seq`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `AuthorityCodes` (
-    `authority_code_seq` INT NOT NULL AUTO_INCREMENT,
-    `authority_code_name` VARCHAR(45) NOT NULL,
+                                                `authority_code_seq` INT NOT NULL AUTO_INCREMENT,
+                                                `authority_code_name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`authority_code_seq`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `Accounts` (
     `account_id` VARCHAR(20) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
     REFERENCES `AuthorityCodes` (`authority_code_seq`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
-);
+    );
 
 
 

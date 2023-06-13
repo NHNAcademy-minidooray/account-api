@@ -2,84 +2,100 @@ package com.nhnacademy.minidooray.accountapi.service;
 
 import com.nhnacademy.minidooray.accountapi.dto.AccountDto;
 import com.nhnacademy.minidooray.accountapi.entity.Account;
-import com.nhnacademy.minidooray.accountapi.entity.AuthorityCode;
 import com.nhnacademy.minidooray.accountapi.entity.StatusCode;
+import com.nhnacademy.minidooray.accountapi.exception.AccountNotFoundException;
+import com.nhnacademy.minidooray.accountapi.exception.UnauthorizedAdminException;
 import com.nhnacademy.minidooray.accountapi.repository.AccountRepository;
-import com.nhnacademy.minidooray.accountapi.repository.AuthorityCodeRepository;
 import com.nhnacademy.minidooray.accountapi.repository.StatusCodeRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class AdminServiceImplTest {
 
-    @Autowired
-    AdminService adminService;
-
-    @Autowired
+    @InjectMocks
+    AdminServiceImpl adminService;
+    @Mock
     AccountRepository accountRepository;
-
-    @Autowired
+    @Mock
     StatusCodeRepository statusCodeRepository;
 
-    @Autowired
-    AuthorityCodeRepository authorityCodeRepository;
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.openMocks(this);
+//    }
+
+    @Test
+    void getAccountExceptionTest() {
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class,
+                () -> adminService.getAccount("test"));
+    }
 
     @Test
     void getAccountTest() {
-        statusCodeRepository.save(new StatusCode(4, "상태테스트"));
-        authorityCodeRepository.save(new AuthorityCode(4, "권한테스트"));
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.of(mock(Account.class)));
+        when(accountRepository.findAccountById(any()))
+                .thenReturn(mock(AccountDto.class));
 
-        Account actual = new Account("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test@naver.com", "imtest", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
-        accountRepository.save(actual);
-
-        AccountDto actualDto = new AccountDto("test", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-                "test@naver.com", "imtest", LocalDate.now(), 4, 4);
-
-        assertThat(adminService.getAccount(actual.getAccountId()).getStatusCode()).isEqualTo(actualDto.getStatusCode());
-        assertThat(adminService.getAccount(actual.getAccountId()).getAuthorityCode()).isEqualTo(actualDto.getAuthorityCode());
+        AccountDto actual = adminService.getAccount("test");
+        assertThat(actual)
+                .isInstanceOf(AccountDto.class);
     }
 
     @Test
     void getAccountsTest() {
-//        statusCodeRepository.save(new StatusCode(4, "상태테스트"));
-//        authorityCodeRepository.save(new AuthorityCode(4, "권한테스트"));
-//
-//        Account account1 = new Account("test1", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-//                "test1@naver.com", "imtest1", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
-//        accountRepository.save(account1);
-//
-//        Account account2 = new Account("test2", "$2a$10$BScokNq3/NR9fcVi0/I1PuWrYv3rdlqMLxeEk5qxxrToyxmsOYRYK",
-//                "test2@naver.com", "imtest2", LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
-//        accountRepository.save(account2);
-//
-//
-//        List<Account> accountList = new ArrayList<>();
-//        accountList.add(account1);
-//        accountList.add(account2);
-//
-//        List<AccountDto> accountDtoList = adminService.getAccounts();
-//
-//        assertThat(accountDtoList.size()).isEqualTo(accountList.size());
-//
-//        int idx = 0;
-//        while (idx < accountDtoList.size()) {
-//            assertThat(accountDtoList.get(idx).getStatusCode()).isEqualTo(accountList.get(idx).getStatus().getSequence());
-//            assertThat(accountDtoList.get(idx).getAuthorityCode()).isEqualTo(accountList.get(idx).getAuthority().getSequence());
-//            idx++;
-//        }
+        List<AccountDto> testList = List.of(mock(AccountDto.class));
+
+        when(accountRepository.findAccountAll())
+                .thenReturn(testList);
+
+        List<AccountDto> actual = adminService.getAccounts();
+        assertThat(actual.size())
+                .isEqualTo(testList.size());
+    }
+
+    @Test
+    void modifyAccountStatusForAdminUnauthorizedTest() {
+        assertThrows(UnauthorizedAdminException.class,
+                () -> adminService.modifyAccountStatusForAdmin("test", 2));
+    }
+
+    @Test
+    void modifyAccountStatusForAdminNotFoundExceptionTest() {
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class,
+                () -> adminService.modifyAccountStatusForAdmin("test", 1));
     }
 
     @Test
     void modifyAccountStatusForAdminTest() {
+        when(accountRepository.findById(any()))
+                .thenReturn(Optional.of(mock(Account.class)));
+        when(statusCodeRepository.getReferenceById(1))
+                .thenReturn(mock(StatusCode.class));
+        when(accountRepository.findAccountById(any()))
+                .thenReturn(mock(AccountDto.class));
+
+        AccountDto actual = adminService.modifyAccountStatusForAdmin("test", 1);
+        assertThat(actual)
+                .isInstanceOf(AccountDto.class);
     }
 }

@@ -14,18 +14,18 @@ Content-Type: application/json
 
 {
   "accountId": "minidooray",
-  "password": "minidooray                                                  ",
+  "password": "$2a$10$xnxIPORYILhbmjBmEbbNiu9UoH2u4ZJHuVbSfygRxmckFcO4l21Ee",
   "email": "minidooray@naver.com",
   "name": "두레이"
 }
 
 
-### minidooray 이름 변경 "두레이" -> "미니두레이"
+### minidooray 수정
 PATCH http://localhost:8888/accounts/minidooray
 Content-Type: application/json
 
 {
-  "password": "minidooray",
+  "password": "$2a$10$xnxIPORYILhbmjBmEbbNiu9UoH2u4ZJHuVbSfygRxmckFcO4l21Ee",
   "email": "minidooray@gmail.com",
   "name": "미니두레이"
 }

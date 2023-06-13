@@ -24,11 +24,15 @@ public class AccountServiceImpl implements AccountService {
     private final StatusCodeRepository statusCodeRepository;
     private final AuthorityCodeRepository authorityCodeRepository;
 
-    @Override
-    public AccountDto getAccount(String id) {
-        accountRepository.findById(id).orElseThrow(() -> {
+    private Account findByIdOrElseThrow(String id) {
+        return accountRepository.findById(id).orElseThrow(() -> {
             throw new AccountNotFoundException(id);
         });
+    }
+
+    @Override
+    public AccountDto getAccount(String id) {
+        findByIdOrElseThrow(id);
 
         return accountRepository.findAccountById(id);
     }
@@ -36,18 +40,16 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDto modifyAccountStatusForAccount(String id) {
-        Account account = accountRepository.findById(id).orElseThrow(() -> {
-            throw new AccountNotFoundException(id);
-        });
+        Account account = findByIdOrElseThrow(id);
 
         account.updateStatusCode(statusCodeRepository.getReferenceById(2));
-        return accountRepository.findAccountById(id);
+        return accountRepository.findAccountById(account.getAccountId());
     }
 
     @Override
     @Transactional
     public AccountDto createAccount(AccountRegisterRequest accountRegisterRequest) {
-        if (accountRepository.findById(accountRegisterRequest.getAccountId()).isPresent()) {
+        if (accountRepository.existsById(accountRegisterRequest.getAccountId())) {
             throw new AccountExistsException(accountRegisterRequest.getAccountId());
         }
         Account account = Account.builder()
@@ -61,19 +63,13 @@ public class AccountServiceImpl implements AccountService {
                 .build();
 
         accountRepository.save(account);
-
-        accountRepository.findById(account.getAccountId()).orElseThrow(() -> {
-            throw new AccountNotFoundException(account.getAccountId());
-        });
         return accountRepository.findAccountById(account.getAccountId());
     }
 
     @Override
     @Transactional
     public AccountDto modifyAccountInfoForAccount(String id, AccountModifyRequest accountModifyRequest) {
-        Account account = accountRepository.findById(id).orElseThrow(() -> {
-            throw new AccountNotFoundException(id);
-        });
+        Account account = findByIdOrElseThrow(id);
 
         account.updateAccountInfo(accountModifyRequest.getPassword(), accountModifyRequest.getEmail(), accountModifyRequest.getName());
 
