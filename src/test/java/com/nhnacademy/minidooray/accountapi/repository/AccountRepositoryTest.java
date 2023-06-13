@@ -4,10 +4,11 @@ import com.nhnacademy.minidooray.accountapi.entity.Account;
 import com.nhnacademy.minidooray.accountapi.entity.AuthorityCode;
 import com.nhnacademy.minidooray.accountapi.entity.StatusCode;
 
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -17,17 +18,22 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @DataJpaTest
 class AccountRepositoryTest {
 
-    // findById(String id)
-    // save(Account account)
-
     @Autowired
     AccountRepository accountRepository;
-
     @Autowired
-    StatusCodeRepository statusCodeRepository;
+    TestEntityManager testEntityManager;
 
-    @Autowired
-    AuthorityCodeRepository authorityCodeRepository;
+    StatusCode statusCode;
+    AuthorityCode authorityCode;
+
+    @BeforeEach
+    void setUp() {
+        statusCode = new StatusCode(4, "상태테스트");
+        authorityCode = new AuthorityCode(4, "권한테스트");
+
+        testEntityManager.persist(statusCode);
+        testEntityManager.persist(authorityCode);
+    }
 
     @Test
     void findByIdTest() throws Exception {
@@ -44,22 +50,16 @@ class AccountRepositoryTest {
     @Test
     void saveTest() throws Exception {
 
-        StatusCode statusCode = new StatusCode(4, "가입테스트");
-        statusCodeRepository.save(statusCode);
-
-        AuthorityCode authorityCode = new AuthorityCode(4, "회원테스트");
-        authorityCodeRepository.save(authorityCode);
-
         Account account = new Account("test", "test", "test@naver.com", "imtest",
-                LocalDate.now(), statusCodeRepository.getReferenceById(4), authorityCodeRepository.getReferenceById(4));
+                LocalDate.now(), testEntityManager.find(statusCode.getClass(), statusCode.getSequence()), testEntityManager.find(authorityCode.getClass(), authorityCode.getSequence()));
         accountRepository.save(account);
 
-        Optional<StatusCode> actualStatusCode = statusCodeRepository.findById(statusCode.getSequence());
-        Optional<AuthorityCode> actualAuthorityCode = authorityCodeRepository.findById(authorityCode.getSequence());
+        StatusCode actualStatusCode = testEntityManager.find(statusCode.getClass(), statusCode.getSequence());
+        AuthorityCode actualAuthorityCode = testEntityManager.find(authorityCode.getClass(), actualStatusCode.getSequence());
         Optional<Account> actualAccount = accountRepository.findById(account.getAccountId());
 
-        assertThat(actualStatusCode).isEqualTo(statusCodeRepository.findById(4));
-        assertThat(actualAuthorityCode).isEqualTo(authorityCodeRepository.findById(4));
+        assertThat(actualStatusCode).isEqualTo(testEntityManager.find(statusCode.getClass(), statusCode.getSequence()));
+        assertThat(actualAuthorityCode).isEqualTo(testEntityManager.find(authorityCode.getClass(), authorityCode.getSequence()));
         assertThat(actualAccount).isEqualTo(accountRepository.findById("test"));
     }
 
