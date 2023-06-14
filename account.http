@@ -1,15 +1,15 @@
 # Account
 
 ### kimsiyeon 조회
-GET http://localhost:8888/accounts/kimsiyeon
+GET http://localhost:8888/accountapi/accounts/kimsiyeon
 
 
 ### minidooray 조회
-GET http://localhost:8888/accounts/minidooray
+GET http://localhost:8888/accountapi/accounts/minidooray
 
 
 ### "minidooray" 등록
-POST http://localhost:8888/accounts
+POST http://localhost:8888/accountapi/accounts
 Content-Type: application/json
 
 {
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 
 ### minidooray 수정
-PATCH http://localhost:8888/accounts/minidooray
+PATCH http://localhost:8888/accountapi/accounts/minidooray
 Content-Type: application/json
 
 {
@@ -31,21 +31,21 @@ Content-Type: application/json
 }
 
 ### minidooray 자진 탈퇴
-GET http://localhost:8888/accounts/withdraw/minidooray
+GET http://localhost:8888/accountapi/accounts/withdraw/minidooray
 
 ### kimsiyeon 이름 변경 "김시연" -> "시연"
-PATCH http://localhost:8888/accounts/kimsiyeon
+PATCH http://localhost:8888/accountapi/accounts/kimsiyeon
 Content-Type: application/json
 
 {
-  "password": "ksy",
+  "password": "$2a$10$2JrtuV13mUgKMNc6S25HVe0NX.q7vKlUpgQJi6WmYJ/B24XG7lp6S",
   "email": "swanshawn715@gmail.com",
   "name": "시연"
 }
 
 
 ### "test" 등록 / 비밀번호 길이 오류
-POST http://localhost:8888/accounts
+POST http://localhost:8888/accountapi/accounts
 Content-Type: application/json
 
 {
@@ -60,15 +60,15 @@ Content-Type: application/json
 # Admin
 
 ### 전체 회원 조회
-GET http://localhost:8888/admin/accounts
+GET http://localhost:8888/accountapi/admin/accounts
 
 
 ### kimsiyeon 조회
-GET http://localhost:8888/admin/accounts/kimsiyeon
+GET http://localhost:8888/accountapi/admin/accounts/kimsiyeon
 
 
 ### kimsiyeon을 휴면으로
-PATCH http://localhost:8888/admin/accounts/kimsiyeon
+PATCH http://localhost:8888/accountapi/admin/accounts/kimsiyeon
 Content-Type: application/json
 
 {
@@ -76,7 +76,7 @@ Content-Type: application/json
 }
 
 ### kimsiyeon을 강제탈퇴 -> 권한 없음
-PATCH http://localhost:8888/admin/accounts/kimsiyeon
+PATCH http://localhost:8888/accountapi/admin/accounts/kimsiyeon
 Content-Type: application/json
 
 {

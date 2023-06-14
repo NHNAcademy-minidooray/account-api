@@ -70,7 +70,7 @@ class AdminRestControllerTest {
 
         List<AccountDto> actual = adminService.getAccounts();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/admin/accounts")
+        mockMvc.perform(MockMvcRequestBuilders.get("/accountapi/admin/accounts")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("size()", equalTo(actual.size())))
@@ -91,7 +91,7 @@ class AdminRestControllerTest {
 
         when(adminService.getAccount(anyString())).thenReturn(accountDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/admin/accounts/{id}", "test")
+        mockMvc.perform(MockMvcRequestBuilders.get("/accountapi/admin/accounts/{id}", "test")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accountId").value(accountDto.getAccountId()))
@@ -116,7 +116,7 @@ class AdminRestControllerTest {
 
         when(adminService.modifyAccountStatusForAdmin(anyString(), anyInt())).thenReturn(accountDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/admin/accounts/{id}", "test")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/accountapi/admin/accounts/{id}", "test")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

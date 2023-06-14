@@ -54,7 +54,7 @@ class AccountRestControllerTest {
         when(accountService.getAccount(anyString())).thenReturn(accountDto);
 
         // then
-        mockMvc.perform(MockMvcRequestBuilders.get("/accounts/{id}", "test")
+        mockMvc.perform(MockMvcRequestBuilders.get("/accountapi/accounts/{id}", "test")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accountId").value(accountDto.getAccountId()))
@@ -80,7 +80,7 @@ class AccountRestControllerTest {
         when(accountService.modifyAccountStatusForAccount(anyString())).thenReturn(accountDto);
 
         // then
-        mockMvc.perform(MockMvcRequestBuilders.get("/accounts/withdraw/{id}", "test")
+        mockMvc.perform(MockMvcRequestBuilders.get("/accountapi/accounts/withdraw/{id}", "test")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accountId").value(accountDto.getAccountId()))
@@ -167,7 +167,7 @@ class AccountRestControllerTest {
 
         when(accountService.createAccount(any(AccountRegisterRequest.class))).thenReturn(accountDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/accounts")
+        mockMvc.perform(MockMvcRequestBuilders.post("/accountapi/accounts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .accept(MediaType.APPLICATION_JSON))
@@ -254,7 +254,7 @@ class AccountRestControllerTest {
 
         when(accountService.modifyAccountInfoForAccount(anyString(), any(AccountModifyRequest.class))).thenReturn(accountDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/accounts/{id}", "test")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/accountapi/accounts/{id}", "test")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
                         .accept(MediaType.APPLICATION_JSON))
