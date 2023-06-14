@@ -15,6 +15,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -28,13 +29,13 @@ import static org.mockito.Mockito.*;
 class AccountServiceImplTest {
 
     @InjectMocks
-    AccountServiceImpl accountService;
+    private AccountServiceImpl accountService;
     @Mock
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Mock
-    StatusCodeRepository statusCodeRepository;
+    private StatusCodeRepository statusCodeRepository;
     @Mock
-    AuthorityCodeRepository authorityCodeRepository;
+    private AuthorityCodeRepository authorityCodeRepository;
 
 //    @BeforeEach
 //    void setUp() {

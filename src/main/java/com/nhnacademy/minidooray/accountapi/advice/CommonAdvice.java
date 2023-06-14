@@ -31,7 +31,7 @@ public class CommonAdvice {
     }
 
     //401 Unauthorized
-    @ExceptionHandler(UnauthorizedAccountException.class)
+    @ExceptionHandler()
     public ResponseEntity<ErrorMessage> unauthorizedUser(Exception exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.UNAUTHORIZED.value(), exception.getMessage());
         return new ResponseEntity<>(errorMessage,HttpStatus.UNAUTHORIZED);
@@ -45,7 +45,7 @@ public class CommonAdvice {
     }
 
     //404 Not Found
-    @ExceptionHandler({AccountNotFoundException.class, StatusNotFoundException.class, NoHandlerFoundException.class})
+    @ExceptionHandler({AccountNotFoundException.class, NoHandlerFoundException.class})
     public ResponseEntity<ErrorMessage> resourceNotFoundException(Exception exception) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND.value(), exception.getMessage());
         return new ResponseEntity<>(errorMessage,HttpStatus.NOT_FOUND);

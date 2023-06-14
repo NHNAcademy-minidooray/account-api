@@ -1,11 +1,11 @@
 # account-api
 
 # 변경 사항
-repository, service TC 완료
-
-* TA feedback 반영
-* TestEntityManager 적용
-* getReferenceId -> findById
+* controller TC 작성 완료
+  * IntelliJ Converage : Repo, Service, Controller 100%
+* SonarQube 연동 완료
+  * SonarQube Coverage : 67.6%
+* SonarLint 완료
 
 # 진행 상황
-controller test code 작성 해야함
+> Account-Api 완료

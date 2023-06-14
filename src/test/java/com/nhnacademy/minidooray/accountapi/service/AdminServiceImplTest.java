@@ -26,11 +26,11 @@ import static org.mockito.Mockito.when;
 class AdminServiceImplTest {
 
     @InjectMocks
-    AdminServiceImpl adminService;
+    private AdminServiceImpl adminService;
     @Mock
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Mock
-    StatusCodeRepository statusCodeRepository;
+    private StatusCodeRepository statusCodeRepository;
 
 //    @BeforeEach
 //    void setUp() {
@@ -66,8 +66,7 @@ class AdminServiceImplTest {
                 .thenReturn(testList);
 
         List<AccountDto> actual = adminService.getAccounts();
-        assertThat(actual.size())
-                .isEqualTo(testList.size());
+        assertThat(actual.size()).isEqualTo(testList.size());
     }
 
     @Test

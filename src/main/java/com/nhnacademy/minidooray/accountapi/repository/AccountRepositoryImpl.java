@@ -37,13 +37,11 @@ public class AccountRepositoryImpl extends QuerydslRepositorySupport implements 
         QStatusCode statusCode = QStatusCode.statusCode;
         QAuthorityCode authorityCode = QAuthorityCode.authorityCode;
 
-        List<AccountDto> accountDtoList = from(account)
+        return from(account)
                 .innerJoin(account.authority, authorityCode)
                 .innerJoin(account.status, statusCode)
                 .select(Projections.constructor(AccountDto.class, account.accountId, account.password,
                         account.email, account.name, account.createdAt, statusCode.sequence, authorityCode.sequence))
                 .fetchResults().getResults();
-
-        return accountDtoList;
     }
 }
