@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/accountapi/admin")
 @RequiredArgsConstructor
 public class AdminRestController {
     private final AdminService adminService;

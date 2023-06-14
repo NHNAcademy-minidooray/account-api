@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/accountapi/accounts")
 @RequiredArgsConstructor
 public class AccountRestController {
 
