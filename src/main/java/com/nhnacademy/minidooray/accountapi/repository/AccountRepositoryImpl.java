@@ -44,4 +44,19 @@ public class AccountRepositoryImpl extends QuerydslRepositorySupport implements 
                         account.email, account.name, account.createdAt, statusCode.sequence, authorityCode.sequence))
                 .fetchResults().getResults();
     }
+
+    @Override
+    public List<AccountDto> findAccountExceptMe(String accountId) {
+        QAccount account = QAccount.account;
+        QStatusCode statusCode = QStatusCode.statusCode;
+        QAuthorityCode authorityCode = QAuthorityCode.authorityCode;
+
+        return from(account)
+                .innerJoin(account.authority, authorityCode)
+                .innerJoin(account.status, statusCode)
+                .where(account.accountId.ne(accountId))
+                .select(Projections.constructor(AccountDto.class, account.accountId, account.password,
+                        account.email, account.name, account.createdAt, statusCode.sequence, authorityCode.sequence))
+                .fetchResults().getResults();
+    }
 }

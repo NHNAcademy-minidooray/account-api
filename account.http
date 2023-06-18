@@ -7,8 +7,8 @@ GET http://localhost:8888/accountapi/accounts/kimsiyeon
 ### minidooray 조회
 GET http://localhost:8888/accountapi/accounts/minidooray
 
-### 전체 회원 조회
-GET http://localhost:8888/accountapi/accounts
+### 나를 뺀 전체 회원 조회
+GET http://localhost:8888/accountapi/accounts/except/kimsiyeon
 
 ### "minidooray" 등록 오류
 POST http://localhost:8888/accountapi/accounts

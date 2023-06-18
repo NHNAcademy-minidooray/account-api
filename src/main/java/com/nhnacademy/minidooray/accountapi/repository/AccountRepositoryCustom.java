@@ -11,4 +11,6 @@ public interface AccountRepositoryCustom {
     AccountDto findAccountById(String accountId);
 
     List<AccountDto> findAccountAll();
+
+    List<AccountDto> findAccountExceptMe(String accountId);
 }

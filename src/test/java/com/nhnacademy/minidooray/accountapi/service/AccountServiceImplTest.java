@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -36,11 +37,6 @@ class AccountServiceImplTest {
     private StatusCodeRepository statusCodeRepository;
     @Mock
     private AuthorityCodeRepository authorityCodeRepository;
-
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//    }
 
     @Test
     void getAccountExceptionTest() {
@@ -61,6 +57,20 @@ class AccountServiceImplTest {
         AccountDto actual = accountService.getAccount("test");
         assertThat(actual)
                 .isInstanceOf(AccountDto.class);
+    }
+
+    @Test
+    void getAccountsExceptMe() {
+        when(accountRepository.findById("test"))
+                .thenReturn(Optional.of(mock(Account.class)));
+
+        List<AccountDto> testList = List.of(mock(AccountDto.class));
+
+        when(accountRepository.findAccountExceptMe("test"))
+                .thenReturn(testList);
+
+        List<AccountDto> actual = accountService.getAccountsExceptMe("test");
+        assertThat(actual.size()).isEqualTo(testList.size());
     }
 
     @Test

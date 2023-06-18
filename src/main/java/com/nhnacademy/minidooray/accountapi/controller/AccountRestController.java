@@ -27,9 +27,9 @@ public class AccountRestController {
         return new ResponseEntity<>(accountService.getAccount(id), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<AccountDto>> getAccounts() {
-        return new ResponseEntity<>(accountService.getAccounts(), HttpStatus.OK);
+    @GetMapping("/except/{id}")
+    public ResponseEntity<List<AccountDto>> getAccounts(@PathVariable String id) {
+        return new ResponseEntity<>(accountService.getAccountsExceptMe(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/withdraw/{id}")

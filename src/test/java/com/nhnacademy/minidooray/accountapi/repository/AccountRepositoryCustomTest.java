@@ -79,4 +79,33 @@ class AccountRepositoryCustomTest {
             idx++;
         }
     }
+
+    @Test
+    void findAccountExceptMeTest() {
+        // given
+        Account account1 = new Account("test1", "test1", "test1@naver.com", "imtest1",
+                LocalDate.now(), testEntityManager.find(StatusCode.class, statusCode.getSequence()), testEntityManager.find(AuthorityCode.class, authorityCode.getSequence()));
+        accountRepository.save(account1);
+
+        Account account2 = new Account("test2", "test2", "test2@naver.com", "imtest2",
+                LocalDate.now(), testEntityManager.find(StatusCode.class, statusCode.getSequence()), testEntityManager.find(AuthorityCode.class, authorityCode.getSequence()));
+        accountRepository.save(account2);
+
+        List<Account> accountList = new ArrayList<>();
+        accountList.add(account1);
+        accountList.add(account2);
+
+        // when
+        List<AccountDto> accountDtoList = accountRepository.findAccountAll();
+
+        // then
+        assertThat(accountDtoList.size()).isEqualTo(accountList.size());
+
+        int idx = 0;
+        while (idx < accountDtoList.size()) {
+            assertThat(accountDtoList.get(idx).getStatusCode()).isEqualTo(accountList.get(idx).getStatus().getSequence());
+            assertThat(accountDtoList.get(idx).getAuthorityCode()).isEqualTo(accountList.get(idx).getAuthority().getSequence());
+            idx++;
+        }
+    }
 }

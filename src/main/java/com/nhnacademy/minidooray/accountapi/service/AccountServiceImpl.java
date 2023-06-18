@@ -39,8 +39,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDto> getAccounts() {
-        return accountRepository.findAccountAll();
+    public List<AccountDto> getAccountsExceptMe(String accountId) {
+        findByIdOrElseThrow(accountId);
+
+        return accountRepository.findAccountExceptMe(accountId);
     }
 
     @Override

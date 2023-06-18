@@ -15,8 +15,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -65,6 +68,45 @@ class AccountRestControllerTest {
                 .andExpect(jsonPath("$.createdAt").value(LocalDate.now().toString()))
                 .andExpect(jsonPath("$.statusCode").value(1))
                 .andExpect(jsonPath("$.authorityCode").value(1))
+                .andDo(print());
+    }
+
+    @Test
+    @Order(13)
+    void getAccounts() throws Exception {
+        List<AccountDto> accountDtoList = new ArrayList<>();
+
+        AccountDto accountDto1 = AccountDto.builder()
+                .accountId("test1")
+                .password("test1")
+                .email("test1@naver.com")
+                .name("test1")
+                .createdAt(LocalDate.now())
+                .statusCode(1)
+                .authorityCode(2)
+                .build();
+
+        AccountDto accountDto2 = AccountDto.builder()
+                .accountId("test2")
+                .password("test2")
+                .email("test2@naver.com")
+                .name("test2")
+                .createdAt(LocalDate.now())
+                .statusCode(1)
+                .authorityCode(2)
+                .build();
+
+        accountDtoList.add(accountDto1);
+        accountDtoList.add(accountDto2);
+
+        when(accountService.getAccountsExceptMe(anyString())).thenReturn(accountDtoList);
+
+        List<AccountDto> actual = accountService.getAccountsExceptMe(anyString());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/accountapi/accounts/except/{id}", "test")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("size()", equalTo(actual.size())))
                 .andDo(print());
     }
 

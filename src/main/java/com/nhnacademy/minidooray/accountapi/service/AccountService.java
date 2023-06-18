@@ -9,7 +9,7 @@ import java.util.List;
 public interface AccountService {
     AccountDto getAccount(String id);
 
-    List<AccountDto> getAccounts();
+    List<AccountDto> getAccountsExceptMe(String accountId);
 
     AccountDto modifyAccountStatusForAccount(String id);
 
