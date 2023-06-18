@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/accountapi/accounts")
@@ -24,6 +25,11 @@ public class AccountRestController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<AccountDto> getAccount(@PathVariable String id) {
         return new ResponseEntity<>(accountService.getAccount(id), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AccountDto>> getAccounts() {
+        return new ResponseEntity<>(accountService.getAccounts(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/withdraw/{id}")

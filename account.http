@@ -7,6 +7,18 @@ GET http://localhost:8888/accountapi/accounts/kimsiyeon
 ### minidooray 조회
 GET http://localhost:8888/accountapi/accounts/minidooray
 
+### 전체 회원 조회
+GET http://localhost:8888/accountapi/accounts
+
+### "minidooray" 등록 오류
+POST http://localhost:8888/accountapi/accounts
+Content-Type: application/json
+
+{
+  "accountId": "minidooray",
+  "password": "$2a$10$xnxIPORYILhbmjBmEbbNiu9UoH2u4ZJHuVbSfygRxmckFcO4l21Ee",
+  "name": "두레이"
+}
 
 ### "minidooray" 등록
 POST http://localhost:8888/accountapi/accounts
@@ -19,8 +31,27 @@ Content-Type: application/json
   "name": "두레이"
 }
 
+### "minidooray" 비밀번호 오류
+POST http://localhost:8888/accountapi/accounts
+Content-Type: application/json
 
-### minidooray 수정
+{
+  "accountId": "minidooray",
+  "password": "minidooraypassword",
+  "email": "minidooray@naver.com",
+  "name": "두레이"
+}
+
+### minidooray 메일, 이름 수정 오류
+PATCH http://localhost:8888/accountapi/accounts/minidooray
+Content-Type: application/json
+
+{
+  "email": "minidooray@gmail.com",
+  "name": "미니두레이"
+}
+
+### minidooray 메일, 이름 수정 성공
 PATCH http://localhost:8888/accountapi/accounts/minidooray
 Content-Type: application/json
 
@@ -66,9 +97,19 @@ GET http://localhost:8888/accountapi/admin/accounts
 ### kimsiyeon 조회
 GET http://localhost:8888/accountapi/admin/accounts/kimsiyeon
 
+### minidooray 조회
+GET http://localhost:8888/accountapi/admin/accounts/minidooray
 
 ### kimsiyeon을 휴면으로
 PATCH http://localhost:8888/accountapi/admin/accounts/kimsiyeon
+Content-Type: application/json
+
+{
+  "statusCode": 3
+}
+
+### minidooray를 휴면으로
+PATCH http://localhost:8888/accountapi/admin/accounts/minidooray
 Content-Type: application/json
 
 {
@@ -81,4 +122,20 @@ Content-Type: application/json
 
 {
   "statusCode": 2
+}
+
+### minidooray를 휴면으로 (가입 x)
+PATCH http://localhost:8888/accountapi/admin/accounts/minidooray
+Content-Type: application/json
+
+{
+  "statusCode": 3
+}
+
+### 지정되지 않은 상태코드
+PATCH http://localhost:8888/accountapi/admin/accounts/minidooray
+Content-Type: application/json
+
+{
+  "statusCode": 10
 }

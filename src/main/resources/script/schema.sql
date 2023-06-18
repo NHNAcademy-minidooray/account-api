@@ -7,16 +7,16 @@ DROP TABLE IF EXISTS `StatusCodes` ;
 
 
 CREATE TABLE IF NOT EXISTS `StatusCodes` (
-                                             `status_code_seq` INT NOT NULL AUTO_INCREMENT,
-                                             `status_code_name` VARCHAR(45) NOT NULL,
+    `status_code_seq` INT NOT NULL AUTO_INCREMENT,
+    `status_code_name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`status_code_seq`)
-    );
+);
 
 CREATE TABLE IF NOT EXISTS `AuthorityCodes` (
-                                                `authority_code_seq` INT NOT NULL AUTO_INCREMENT,
-                                                `authority_code_name` VARCHAR(45) NOT NULL,
+    `authority_code_seq` INT NOT NULL AUTO_INCREMENT,
+    `authority_code_name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`authority_code_seq`)
-    );
+);
 
 CREATE TABLE IF NOT EXISTS `Accounts` (
     `account_id` VARCHAR(20) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
     REFERENCES `AuthorityCodes` (`authority_code_seq`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
-    );
+);
 
 
 
@@ -52,7 +52,7 @@ MERGE INTO AuthorityCodes VALUES (2, '회원');
 
 -- 멤버 더미데이터 삽입
 MERGE INTO Accounts VALUES ('goback10000', '$2a$10$fY14UMgpyxJQKxsdtBCzJeiQrWhd9jqKGmEkX0JdEeJFedTMo8W7q', 'back10000@gmail.com', 'marco', now(), 1, 1);
-MERGE INTO Accounts VALUES ('jeongzbum', 'jzb', 'zbum@naver.com', null, now(), 1, 2);
-MERGE INTO Accounts VALUES ('kimsiyeon', '$2a$10$2JrtuV13mUgKMNc6S25HVe0NX.q7vKlUpgQJi6WmYJ/B24XG7lp6S', 'swanshawn715@gmail.com','김시연', now(), 1, 2);
-MERGE INTO Accounts VALUES ('goyoungeun', 'gye', 'youngeun@gmail.com', '고영은', now(), 1, 2);
-MERGE INTO Accounts VALUES ('mooneunji', 'mej', 'eunji@naver.com', '문은지', now(), 1, 2);
+INSERT INTO Accounts VALUES ('jeongzbum', 'jzb', 'zbum@naver.com', null, now(), 1, 2);
+INSERT INTO Accounts VALUES ('kimsiyeon', 'ksy', 'swanshwan715@gmail.com','김시연', now(), 1, 2);
+INSERT INTO Accounts VALUES ('goyoungeun', 'gye', 'youngeun@gmail.com', '고영은', now(), 1, 2);
+INSERT INTO Accounts VALUES ('mooneunji', 'mej', 'eunji@naver.com', '문은지', now(), 1, 2);

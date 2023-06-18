@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -110,6 +111,7 @@ class AccountRestControllerTest {
                 .email("test@naver.com")
                 .name("test")
                 .build();
+
         when(accountService.createAccount(request)).thenThrow(ValidationFailedException.class);
 
         Assertions.assertThrows(ValidationFailedException.class,

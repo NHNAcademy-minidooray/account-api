@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,11 @@ public class AccountServiceImpl implements AccountService {
         findByIdOrElseThrow(id);
 
         return accountRepository.findAccountById(id);
+    }
+
+    @Override
+    public List<AccountDto> getAccounts() {
+        return accountRepository.findAccountAll();
     }
 
     @Override
